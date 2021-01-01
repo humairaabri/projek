@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block konten%}
+
+
+    <h2 style="font-size: 20px; text-align: center;">SELAMAT DATANG DI SISTEM INFORMASI PENGADUAN</h2>
+    <!--form pengaduan-->
+    <form method="POST">
+        {{form.hidden_tag()}}
+          <div class="form-group">
+              {{form.subjek.label(class="form-control-label")}}
+              {% if form.subjek.errors %}
+              {{form.subjek(class="form-control is-invalid")}}
+      
+              <div class="invalid-feedback">
+                {% for error in form.subjek.errors %}
+                <span>{{error}}</span>
+                {% endfor %}
+              </div>
+        {%else%}
+              {{form.subjek(class="form-control")}}
+      
+        {%endif%}
+      </div>
+
+      <div class="form-group">
+        {{form.kategori.label(class="form-control-label")}}
+        {% if form.kategori.errors %}
+        {{form.kategori(class="form-control is-invalid")}}
+
+        <div class="invalid-feedback">
+          {% for error in form.kategori.errors %}
+          <span>{{error}}</span>
+          {% endfor %}
+        </div> 
+  {%else%}
+        {{form.kategori(class="form-control")}}
+
+  {%endif%}
+</div>
+
+<div class="form-group">
+    {{form.detail_pengaduan.label(class="form-control-label")}}
+    {% if form.detail_pengaduan.errors %}
+    {{form.detail_pengaduan(class="form-control is-invalid")}}
+
+    <div class="invalid-feedback">
+      {% for error in form.detail_pengaduan.errors %}
+      <span>{{error}}</span>
+      {% endfor %}
+    </div>
+{%else%}
+    {{form.detail_pengaduan(class="form-control")}}
+{%endif%}
+</div>
+      
+      
+      
+      <div class="form-group">
+              {{form.submit(class="btn btn-primary")}}
+      </div>
+      
+        </form>
+
+  <script>
+    function klik_hapus(value){
+        let valid_link= document.getElementById('del-hapus')
+        valid_link.href="/delete/"+ value
+    }
+  </script>
+    <hr class="my-4">
+    <h4>Data Pengaduan</h4>
+
+    <table class="table table-responsive table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tgl Post</th>
+          <th scope="col">Subjek</th>
+          <th scope="col">Katagori</th>
+          <th scope="col">Detail pengaduan</th>
+          <th>Edit</th>
+          <th>Hapus</th>
+          
+        
+       </tr>
+      </thead>
+      <tbody> 
+        {% for data in dt_pengaduan%}
+        <tr>
+          <td scope="row"><a href="{{data.id}}" data-toggle="modal" data-target="
+          #modalDetail{{data.id}}">^_^</a></td>
+          <td>{{data.tgl_post}}</td>
+          <td>{{data.subjek}}</td>
+          <td>{{data.katagori}}</td>
+          <td>{{data.detail_pengaduan}}</td>
+          <td><a class="btn btn-success" href="{{url_for('rmahasiswa.update_pengaduan', ed_id=data.id)}}">Edit</a></td>
+          <td><a class="btn btn-dark" data-toggle="modal" data-target=#modals-hapus onclick="klik_hapus({{data.id}})">Hapus</a></td>
+        </tr>
+    </tbody>
+
+    <!-- awal detail pengaduan -->
+      <div id="modalDetail{{data.id}}" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+
+        <!-- modal detail pengaduan -->
+          <div class="modal-content">
+            <div class="modal_header">
+              <h4 class="modal-title">Detail Data Mahasiswa</h4>
+            </div>
+
+            <div class="modal-body">
+              <div class="row">
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Npm</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Nama</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Kelas</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Alamat</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>: {{data.mahasiswa.npm}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.mahasiswa.nama}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.mahasiswa.kelas}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.mahasiswa.alamat}}</label>  
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal_header">
+              <h4>Detail Data Pengaduan</h4>
+            </div>
+
+            <div class="modal-body">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Subjek</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Katagori</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Detail Pengaduan</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Tgl Post</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Id Mahasiswa</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>: {{data.subjek}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.katagori}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.detail_pengaduan}}</label>  
+                  </div>
+                  <div class="form-group">
+                    <label>: {{data.tgl_post}}</label>  
+                  <div class="form-group">
+                    <label>: {{data.mahasiswa_id}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+                    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        {% endfor %}
+          <!--modals hapus-->
+        <div class="modal" tabindex="-1" role="dialog" id=modals-hapus>
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">konfirmasi hapus</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Apakah anda yakin mengghapus data ini ?</p>
+              </div>
+              <div class="modal-footer">
+                <form action="">
+                    <a class="btn btn-warning" id="del-hapus">Hapus</a>
+                </form>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </tbody>
+    </table>
+
+  
+{% endblock%}
